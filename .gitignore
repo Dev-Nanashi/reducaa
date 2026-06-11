@@ -1,0 +1,8 @@
+/target
+
+# Web frontend
+web/node_modules/
+web/dist/
+
+# WASM build output (source pkg — we copy what we need to web/src/wasm/)
+crates/reducaa-wasm/pkg/

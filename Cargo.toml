@@ -1,0 +1,7 @@
+[workspace]
+members = [
+    "crates/reducaa-core",
+    "crates/reducaa-cli",
+    "crates/reducaa-wasm",
+]
+resolver = "3"

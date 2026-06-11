@@ -1,0 +1,28 @@
+[package]
+name = "reducaa-core"
+version = "0.1.0"
+edition = "2024"
+description = "Pure-Rust image compression engine (WASM-ready)"
+
+[dependencies]
+# Decoding: image crate for JPEG/PNG/WebP decoding + PNG encoding
+image = { version = "0.25", default-features = false, features = ["jpeg", "png", "webp"] }
+
+# JPEG encoding: zenjpeg — pure Rust, trellis quantization, adaptive quantization,
+# progressive encoding, XYB color space. Beats MozJPEG on perceptual quality.
+# No C deps. #![forbid(unsafe_code)]. WASM-native.
+zenjpeg = { version = "0.4", default-features = false, features = ["std", "yuv", "trellis"] }
+
+# WebP encoding: zenwebp — pure Rust reimplementation of libwebp.
+# Full lossy + lossless, quality control, presets. WASM-native.
+# #![forbid(unsafe_code)].
+zenwebp = { version = "0.4", default-features = false, features = ["std"] }
+
+# Resizing: pure Rust, SIMD-accelerated Lanczos3
+fast_image_resize = "5"
+
+# EXIF orientation parsing
+kamadak-exif = "0.6"
+
+# Error handling
+thiserror = "2"

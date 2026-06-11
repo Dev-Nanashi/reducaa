@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reducaa — Free & Private Image Compressor</title>
+  <meta name="description" content="Compress images instantly and securely right on your device. Zero uploads, zero limits, 100% private." />
+  <meta name="theme-color" content="#08090c" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+  <!-- Ambient backdrop lighting -->
+  <div class="ambient-glow" aria-hidden="true"></div>
+
+  <div id="app">
+    <!-- ── Header ──────────────────────────────────────────────── -->
+    <header class="header">
+      <div class="header-content">
+        <div class="logo">
+          <div class="logo-icon">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="5"/>
+              <circle cx="8.5" cy="8.5" r="1.5"/>
+              <polyline points="21 15 16 10 5 21"/>
+            </svg>
+          </div>
+          <span class="logo-text">Reducaa</span>
+        </div>
+        <div class="header-badge">
+          <span class="status-dot"></span>
+          <span>100% Offline & Private (WebAssembly)</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- ── Main ────────────────────────────────────────────────── -->
+    <main class="main">
+      <!-- ── Hero Title Section ────────────────────────────────── -->
+      <div class="hero-section">
+        <div class="pill-badge">
+          <span class="badge-icon">⚡</span>
+          <span>Runs 100% locally on your device</span>
+        </div>
+        <h1 class="hero-title">Free & Open Source Image Compressor</h1>
+        <p class="hero-subtitle">
+          Compress images instantly and securely—right on your device. No uploads, no limits, no APIs. Works completely offline and keeps your files private.
+        </p>
+      </div>
+
+      <!-- ── Compression Quality Bar ──────────────────────────── -->
+      <div class="quality-bar-card">
+        <div class="quality-bar-header">
+          <div class="quality-title-wrap">
+            <span class="quality-label">Image Quality:</span>
+            <span id="quality-display" class="quality-value">75% (Recommended)</span>
+          </div>
+          <span class="quality-subhint">Higher quality = larger file size</span>
+        </div>
+        
+        <div class="slider-wrapper">
+          <input type="range" id="quality-slider" class="quality-range" min="10" max="100" value="75" step="1" />
+          <div class="slider-ticks">
+            <span class="tick-label" data-val="20" style="left: 11%;">Low</span>
+            <span class="tick-label" data-val="40" style="left: 33%;">Fair</span>
+            <span class="tick-label" data-val="60" style="left: 55%;">Okay</span>
+            <span class="tick-label active" data-val="75" style="left: 72%;">Good</span>
+            <span class="tick-label" data-val="90" style="left: 88%;">High</span>
+            <span class="tick-label" data-val="100" style="left: 100%;">Max</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Drop Zone ─────────────────────────────────────────── -->
+      <section id="drop-zone" class="drop-zone" role="button" tabindex="0" aria-label="Drop images here or click to browse">
+        <div class="drop-zone-content">
+          <div class="drop-zone-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="17 8 12 3 7 8"/>
+              <line x1="12" y1="3" x2="12" y2="15"/>
+            </svg>
+          </div>
+          <p class="drop-zone-title">Drag & drop images here</p>
+          <p class="drop-zone-subtitle">JPG, JPEG, PNG, WEBP • Multiple files supported</p>
+        </div>
+        <input type="file" id="file-input" accept="image/jpeg,image/png,image/webp" multiple hidden />
+      </section>
+
+      <!-- ── Queued Files Section ──────────────────────────────── -->
+      <section id="queue-section" class="queue-section hidden">
+        <div class="queue-header">
+          <div class="section-title-wrap">
+            <h2 class="section-title">Selected Images</h2>
+            <span id="queue-count" class="badge">0</span>
+          </div>
+          <button id="btn-add-more" class="btn btn-secondary btn-sm">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Add More
+          </button>
+        </div>
+        <div id="queue-list" class="queue-grid"></div>
+      </section>
+
+      <!-- ── Advanced Options Section (Collapsible / Clean) ────── -->
+      <section id="controls-section" class="controls-section hidden">
+        <div class="controls-card">
+          <div class="controls-grid">
+            <!-- Format Picker -->
+            <div class="control-group">
+              <label class="control-label">Target Format</label>
+              <div class="format-picker" id="format-picker">
+                <button class="format-btn active" data-format="auto">Auto (Keep)</button>
+                <button class="format-btn" data-format="webp">WebP <span class="mini-tag">Best</span></button>
+                <button class="format-btn" data-format="jpeg">JPEG</button>
+                <button class="format-btn" data-format="png">PNG</button>
+              </div>
+            </div>
+
+            <!-- Resize Dimensions -->
+            <div class="control-group">
+              <div class="control-label-row">
+                <label class="control-label">Resize Dimensions</label>
+                <button id="btn-lock-aspect" class="aspect-toggle active" title="Maintain aspect ratio (recommended)">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                  <span>Aspect Locked</span>
+                </button>
+              </div>
+              <div class="resize-row">
+                <div class="resize-input-wrap">
+                  <span class="resize-prefix">W</span>
+                  <input type="number" id="max-width" class="resize-input" placeholder="Original width" min="1" max="8192" />
+                </div>
+                <span class="resize-x">×</span>
+                <div class="resize-input-wrap">
+                  <span class="resize-prefix">H</span>
+                  <input type="number" id="max-height" class="resize-input" placeholder="Original height" min="1" max="8192" />
+                </div>
+              </div>
+            </div>
+
+            <!-- Metadata EXIF Settings -->
+            <div class="control-group">
+              <label class="control-label">Camera & EXIF Metadata</label>
+              <div class="meta-toggle-box">
+                <label class="meta-checkbox-label">
+                  <input type="checkbox" id="preserve-metadata-checkbox" />
+                  <span class="meta-checkbox-custom"></span>
+                  <span class="meta-checkbox-text">Preserve Camera & EXIF Data</span>
+                </label>
+                <span id="meta-status-pill" class="meta-status-pill stripped">EXIF Removed (Privacy Mode)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Action Button -->
+          <div class="controls-action-bar">
+            <button id="btn-compress" class="btn btn-primary btn-large">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              <span id="btn-compress-text">Compress Images</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Results Section ───────────────────────────────────── -->
+      <section id="results-section" class="results-section hidden">
+        <div class="results-header">
+          <div class="section-title-wrap">
+            <h2 class="section-title">Compressed Results</h2>
+            <span class="results-tip">💡 Click any image to compare Before & After quality</span>
+          </div>
+          <div class="results-actions">
+            <button id="btn-clear" class="btn btn-ghost btn-sm" title="Clear all results">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              Clear
+            </button>
+            <button id="btn-download-all" class="btn btn-primary btn-sm" title="Download all compressed images">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Download All (.ZIP)
+            </button>
+          </div>
+        </div>
+
+        <!-- Summary Stats Cards -->
+        <div id="summary-stats" class="summary-stats">
+          <div class="stat-card">
+            <div class="stat-label">Files Processed</div>
+            <div class="stat-value" id="stat-total-files">0</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Total Size Reduced</div>
+            <div class="stat-value highlight" id="stat-total-saved">0 KB</div>
+            <div class="stat-sub" id="stat-total-saved-pct">0% saved</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Total Final Size</div>
+            <div class="stat-value" id="stat-total-output">0 KB</div>
+            <div class="stat-sub" id="stat-total-output-orig">from 0 KB</div>
+          </div>
+        </div>
+
+        <!-- File List -->
+        <div id="file-list" class="file-list"></div>
+      </section>
+    </main>
+
+    <!-- ── Interactive Comparison Modal ────────────────────────── -->
+    <div id="compare-modal" class="compare-modal hidden" role="dialog" aria-modal="true">
+      <div class="compare-backdrop" id="compare-backdrop"></div>
+      <div class="compare-dialog">
+        <div class="compare-header">
+          <div class="compare-title-wrap">
+            <h3 class="compare-title" id="compare-filename">Comparison</h3>
+            <div class="compare-badges" id="compare-meta-badges"></div>
+          </div>
+          <button id="compare-close" class="btn-close" title="Close (ESC)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+
+        <div class="compare-body">
+          <!-- Split Slider Comparison View -->
+          <div class="split-view-container" id="split-container">
+            <div class="split-image-wrap split-after">
+              <img id="compare-after-img" src="" alt="Compressed preview" />
+              <span class="view-tag after-tag">COMPRESSED</span>
+            </div>
+            <div class="split-image-wrap split-before" id="split-before-layer">
+              <img id="compare-before-img" src="" alt="Original preview" />
+              <span class="view-tag before-tag">ORIGINAL</span>
+            </div>
+            <div class="split-divider" id="split-divider">
+              <div class="split-handle">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- Metadata & Diff Grid -->
+          <div class="compare-details-grid">
+            <div class="detail-card">
+              <div class="detail-label">Original</div>
+              <div class="detail-val" id="comp-orig-size">—</div>
+              <div class="detail-sub" id="comp-orig-meta">—</div>
+            </div>
+            <div class="detail-card">
+              <div class="detail-label">Compressed</div>
+              <div class="detail-val" id="comp-new-size">—</div>
+              <div class="detail-sub" id="comp-new-meta">—</div>
+            </div>
+            <div class="detail-card highlight-card">
+              <div class="detail-label">Net Difference</div>
+              <div class="detail-val" id="comp-diff-val">—</div>
+              <div class="detail-sub" id="comp-diff-sub">—</div>
+            </div>
+            <div class="detail-card">
+              <div class="detail-label">Metadata / EXIF</div>
+              <div class="detail-val" id="comp-exif-status">—</div>
+              <div class="detail-sub" id="comp-exif-detail">—</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="compare-footer">
+          <span class="drag-hint">↔ Drag the center divider to compare visual quality</span>
+          <a id="compare-download-btn" href="#" download="" class="btn btn-primary btn-sm">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download Compressed File
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Footer ──────────────────────────────────────────────── -->
+    <footer class="footer">
+      <p>Built with <strong>Rust + WebAssembly</strong> (zenjpeg & zenwebp) • 100% Client-Side</p>
+    </footer>
+  </div>
+
+  <!-- ── Loading Overlay ───────────────────────────────────────── -->
+  <div id="loading-overlay" class="loading-overlay hidden">
+    <div class="loading-spinner"></div>
+    <p class="loading-text">Loading WebAssembly engine…</p>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
