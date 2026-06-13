@@ -181,3 +181,5 @@ mod tests {
         assert!(calculate_dimensions(1000, 800, &options).is_err());
     }
 }
+
+/* _GIT_HISTORY_DUMMY_ */ /* Revision 1 - 1ozfmr */

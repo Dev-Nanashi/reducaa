@@ -241,3 +241,5 @@ Realistic numbers from a 2.7 MB, 3872×2592 JPEG phone photo:
 ## License
 
 MIT
+
+<!-- _GIT_HISTORY_DUMMY_ Revision 1 -->

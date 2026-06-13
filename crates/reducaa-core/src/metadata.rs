@@ -262,3 +262,5 @@ mod tests {
         assert_eq!(read_orientation(&data), 1);
     }
 }
+
+/* _GIT_HISTORY_DUMMY_ */ /* Revision 1 - zbvc7 */
