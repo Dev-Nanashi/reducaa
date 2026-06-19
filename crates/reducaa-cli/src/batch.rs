@@ -291,3 +291,5 @@ mod tests {
         assert!(path.to_str().unwrap().ends_with(".webp"));
     }
 }
+
+/* _GIT_HISTORY_DUMMY_ */ /* Revision 4 - y6jnc */
