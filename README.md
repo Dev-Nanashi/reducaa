@@ -242,4 +242,4 @@ Realistic numbers from a 2.7 MB, 3872×2592 JPEG phone photo:
 
 MIT
 
-<!-- _GIT_HISTORY_DUMMY_ Revision 5 -->
+<!-- _GIT_HISTORY_DUMMY_ Revision 6 -->
