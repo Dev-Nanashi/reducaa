@@ -151,4 +151,4 @@ pub fn print_banner() {
     println!();
 }
 
-/* _GIT_HISTORY_DUMMY_ */ /* Revision 22 - c6f82s */
+/* _GIT_HISTORY_DUMMY_ */ /* Revision 24 - jmh8rr */
