@@ -904,4 +904,4 @@ window.addEventListener('drop', (e) => e.preventDefault());
 loadingOverlay.classList.remove('hidden');
 initWorker();
 
-/* _GIT_HISTORY_DUMMY_ */ /* Revision 24 - kdbxf */
+/* _GIT_HISTORY_DUMMY_ */ /* Revision 26 - 0ltqtg */
