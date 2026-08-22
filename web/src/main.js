@@ -903,5 +903,3 @@ window.addEventListener('drop', (e) => e.preventDefault());
 
 loadingOverlay.classList.remove('hidden');
 initWorker();
-
-/* _GIT_HISTORY_DUMMY_ */ /* Revision 34 - 8wvlck */

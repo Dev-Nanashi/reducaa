@@ -190,5 +190,3 @@ mod tests {
         assert!(result.is_err());
     }
 }
-
-/* _GIT_HISTORY_DUMMY_ */ /* Revision 35 - zy19yk */

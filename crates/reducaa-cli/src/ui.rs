@@ -150,5 +150,3 @@ pub fn print_banner() {
     );
     println!();
 }
-
-/* _GIT_HISTORY_DUMMY_ */ /* Revision 26 - 8a5ikj */
