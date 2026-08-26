@@ -1,0 +1,16 @@
+{
+  "name": "reducaa-wasm",
+  "type": "module",
+  "description": "WebAssembly bindings for reducaa image compression engine",
+  "version": "0.1.0",
+  "files": [
+    "reducaa_wasm_bg.wasm",
+    "reducaa_wasm.js",
+    "reducaa_wasm.d.ts"
+  ],
+  "main": "reducaa_wasm.js",
+  "types": "reducaa_wasm.d.ts",
+  "sideEffects": [
+    "./snippets/*"
+  ]
+}
