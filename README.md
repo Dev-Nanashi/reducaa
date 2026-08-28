@@ -165,7 +165,7 @@ The WASM binary is pre-built and committed to `web/src/wasm/`, so you do **not**
 
 ```bash
 # Clone and start
-git clone https://github.com/AaditSaluja/reducaa.git
+git clone https://github.com/Dev-Nanashi/reducaa.git
 cd reducaa/web
 npm install
 npm run dev
