@@ -704,16 +704,16 @@ function openComparisonModal(data) {
   const delta = data.originalSize - data.compressedSize;
   if (delta > 0) {
     const percent = (delta / data.originalSize) * 100;
-    compDiffVal.textContent = formatBytes(data.compressedSize);
+    compDiffVal.textContent = formatBytes(delta);
     compDiffSub.textContent = `Reduced from ${formatBytes(data.originalSize)} (-${percent.toFixed(1)}%)`;
     compDiffVal.style.color = 'var(--emerald)';
   } else if (delta < 0) {
     const percent = (Math.abs(delta) / data.originalSize) * 100;
-    compDiffVal.textContent = formatBytes(data.compressedSize);
+    compDiffVal.textContent = formatBytes(Math.abs(delta));
     compDiffSub.textContent = `Expanded from ${formatBytes(data.originalSize)} (+${percent.toFixed(1)}%)`;
     compDiffVal.style.color = 'var(--amber)';
   } else {
-    compDiffVal.textContent = formatBytes(data.compressedSize);
+    compDiffVal.textContent = '0 B';
     compDiffSub.textContent = 'Exact same size as original';
     compDiffVal.style.color = 'var(--text-muted)';
   }
